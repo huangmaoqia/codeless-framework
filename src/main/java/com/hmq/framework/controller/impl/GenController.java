@@ -12,16 +12,16 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.hmq.framework.model.IDModel;
+import com.hmq.framework.model.IPkModel;
+import com.hmq.framework.model.PageModel;
 import com.hmq.framework.service.IGenService;
 
-public class GenController<PO extends IDModel<ID>, ID extends Serializable, Service extends IGenService<PO, ID>> {
+public class GenController<PO extends IPkModel<ID>, ID extends Serializable, Service extends IGenService<PO, ID>> {
 	@Autowired
 	private Service service;
 
@@ -65,10 +65,10 @@ public class GenController<PO extends IDModel<ID>, ID extends Serializable, Serv
 	}
 
 	@GetMapping("/serachWithPage")
-	public Page<PO> serachWithPage(HttpServletRequest request, Integer pageIndex, Integer pageSize, String orderBy,
+	public PageModel<PO> serachWithPage(HttpServletRequest request, Integer pageIndex, Integer pageSize, String orderBy,
 			String order) {
 		Map<String, Object> filter = getParams(request);
-		Page<PO> poPage = this.getService().findByFilterWithPage(filter, pageIndex, pageSize, orderBy, order);
+		PageModel<PO> poPage = this.getService().findByFilterWithPage(filter, pageIndex, pageSize, orderBy, order);
 		return poPage;
 	}
 

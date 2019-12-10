@@ -13,15 +13,16 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.hmq.framework.dao.IGenDao;
 import com.hmq.framework.model.GenPO;
-import com.hmq.framework.model.IDModel;
+import com.hmq.framework.model.IPkModel;
 import com.hmq.framework.model.ITokenVO;
+import com.hmq.framework.model.PageModel;
 import com.hmq.framework.service.IGenService;
 import com.hmq.framework.utis.TokenUtil;
 import com.hmq.framework.utis.UUIDUtil;
 import com.hmq.utis.framework.query.ExpressionUtil;
 import com.hmq.utis.framework.query.JpaUtil;
 
-public class GenService<PO extends IDModel<ID>, ID extends Serializable, Dao extends IGenDao<PO, ID>>
+public class GenService<PO extends IPkModel<ID>, ID extends Serializable, Dao extends IGenDao<PO, ID>>
 		implements IGenService<PO, ID> {
 
 	@Autowired
@@ -111,17 +112,17 @@ public class GenService<PO extends IDModel<ID>, ID extends Serializable, Dao ext
 	}
 
 	@Override
-	public Page<PO> findBySpecWithPage(Specification<PO> spec, Integer pageIndex, Integer pageSize,
+	public PageModel<PO> findBySpecWithPage(Specification<PO> spec, Integer pageIndex, Integer pageSize,
 			String orderBy, String order) {
 		Pageable pageable = JpaUtil.buildPageable(pageIndex, pageSize, orderBy, order);
 		Page<PO> pageData = this.getDao().findAll(spec, pageable);
-		return pageData;
+		return new PageModel<PO>(pageData);
 	}
 
 	@Override
 	public long countByFilter(Map<String, Object> filter) {
 		Specification<PO> spec = ExpressionUtil.genExpressionByFilter(filter);
-		long count = this.getDao().count(spec);
+		long count = this.countBySpec(spec);
 		return count;
 	}
 
@@ -145,10 +146,10 @@ public class GenService<PO extends IDModel<ID>, ID extends Serializable, Dao ext
 	}
 
 	@Override
-	public Page<PO> findByFilterWithPage(Map<String, Object> filter, Integer pageIndex, Integer pageSize, String orderBy,
+	public PageModel<PO> findByFilterWithPage(Map<String, Object> filter, Integer pageIndex, Integer pageSize, String orderBy,
 			String order) {
 		Specification<PO> spec = ExpressionUtil.genExpressionByFilter(filter);
-		Page<PO> pageData = this.findBySpecWithPage(spec, pageIndex, pageSize, orderBy, order);
+		PageModel<PO> pageData = this.findBySpecWithPage(spec, pageIndex, pageSize, orderBy, order);
 		return pageData;
 	}
 

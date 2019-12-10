@@ -6,16 +6,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.hmq.framework.model.IDModel;
+import com.hmq.framework.model.IPkModel;
+import com.hmq.framework.model.PageModel;
 import com.hmq.framework.service.IGenViewService;
 
-public class GenViewController<VO extends IDModel<ID>, PO extends IDModel<ID>, ID extends Serializable, Service extends IGenViewService<VO, PO, ID>>
+public class GenViewController<VO extends IPkModel<ID>, PO extends IPkModel<ID>, ID extends Serializable, Service extends IGenViewService<VO, PO, ID>>
 		extends GenController<PO,ID,Service> {
 
 	@GetMapping("/getVO/{id}")
@@ -38,15 +38,15 @@ public class GenViewController<VO extends IDModel<ID>, PO extends IDModel<ID>, I
 	public List<VO> searchVO(HttpServletRequest request, Integer pageIndex, Integer pageSize, String orderBy,
 			String order) {
 		Map<String, Object> filter = getParams(request);
-		List<VO> voList = this.getService().findVOByFilter(filter, pageIndex, pageSize, orderBy, order);
+		List<VO> voList = this.getService().findVOByFilter(filter, pageIndex, pageSize, orderBy, order,null	);
 		return voList;
 	}
 
 	@GetMapping("/serachVOWithPage")
-	public Page<VO> serachVOWithPage(HttpServletRequest request, Integer pageIndex, Integer pageSize, String orderBy,
+	public PageModel<VO> serachVOWithPage(HttpServletRequest request, Integer pageIndex, Integer pageSize, String orderBy,
 			String order) {
 		Map<String, Object> filter = getParams(request);
-		Page<VO> voPage = this.getService().findVOByFilterWithPage(filter, pageIndex, pageSize, orderBy, order);
+		PageModel<VO> voPage = this.getService().findVOByFilterWithPage(filter, pageIndex, pageSize, orderBy, order,null);
 		return voPage;
 	}
 

@@ -3,12 +3,23 @@ package com.hmq.framework.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @MappedSuperclass
-public class GenVO<ID extends Serializable> extends IDModel<ID> implements ICreateInfoModel<ID> {
+public class GenVO<ID extends Serializable> implements IPkModel<ID>,ICreateInfoModel<ID> {
+	@Id
+	private ID id;
+	@Override
+	public ID getId() {
+		return id;
+	}
+	@Override
+	public void setId(ID id) {
+		this.id = id;
+	}
 	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	Date createTime;
 	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")

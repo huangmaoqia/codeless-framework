@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import com.hmq.framework.model.IDModel;
+import com.hmq.framework.model.IPkModel;
 
 @NoRepositoryBean
-public interface IGenDao<PO extends IDModel<ID>, ID extends Serializable>
+public interface IGenDao<PO extends IPkModel<ID>, ID extends Serializable>
 		extends JpaRepository<PO, ID>, JpaSpecificationExecutor<PO> {
 }
