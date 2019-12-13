@@ -48,7 +48,7 @@ public class BeanUtils {
 		return tClass;
 	}
 
-	public static <T> SerializedLambda getSerializedLambda(Object fn) {
+	public static SerializedLambda getSerializedLambda(Object fn) {
 		Class<?> clazz = fn.getClass();
 		return Optional.ofNullable(FUNC_CACHE.get(clazz)).map(WeakReference::get).orElseGet(() -> {
 			SerializedLambda lambda = null;

@@ -1,5 +1,6 @@
 package com.hmq.framework.utis;
 
+import java.lang.invoke.SerializedLambda;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.Set;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.hmq.framework.model.IPkModel;
+import com.hmq.framework.service.IGenService;
 import com.hmq.utis.framework.query.BeanUtils;
 import com.hmq.utis.framework.query.Condition;
 import com.hmq.utis.framework.query.Expression;
@@ -77,7 +79,13 @@ public class DataRelationAction<S, T extends IPkModel<?>> {
 
 						Object tValue = null;
 						if (tg == null) {
-							tValue = ktList;
+							SerializedLambda lambda=BeanUtils.getSerializedLambda(ss);
+							String ttt=lambda.getInstantiatedMethodType();
+							if(ttt.indexOf("List;)")!=-1) {
+								tValue = ktList;
+							}else {
+								tValue = ktList.get(0);
+							}
 						} else {
 							tValue = tg.apply(ktList.get(0));
 						}
