@@ -125,5 +125,7 @@ public class Condition<T> implements Specification<T> {
 	public Object getValue() {
 		return value;
 	}
+	
+	
 
 }

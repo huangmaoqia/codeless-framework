@@ -1,4 +1,4 @@
-package com.hmq.framework.model;
+package com.hmq.framework.model.page;
 
 import java.util.List;
 

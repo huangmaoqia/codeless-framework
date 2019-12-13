@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.hmq.framework.model.IPkModel;
-import com.hmq.framework.model.PageModel;
+import com.hmq.framework.model.page.PageModel;
 import com.hmq.framework.service.IGenViewService;
 
 public class GenViewController<VO extends IPkModel<ID>, PO extends IPkModel<ID>, ID extends Serializable, Service extends IGenViewService<VO, PO, ID>>

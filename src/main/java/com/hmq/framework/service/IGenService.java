@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.hmq.framework.model.IPkModel;
-import com.hmq.framework.model.PageModel;
+import com.hmq.framework.model.page.PageModel;
 
 public interface IGenService<PO extends IPkModel<ID>, ID extends Serializable>{
 

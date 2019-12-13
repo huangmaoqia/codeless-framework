@@ -14,7 +14,7 @@ import com.hmq.framework.dao.IGenDao;
 import com.hmq.framework.model.GenPO;
 import com.hmq.framework.model.GenVO;
 import com.hmq.framework.model.IPkModel;
-import com.hmq.framework.model.PageModel;
+import com.hmq.framework.model.page.PageModel;
 import com.hmq.framework.service.IGenViewService;
 import com.hmq.framework.utis.DataRelation;
 import com.hmq.framework.utis.DataRelationAction;

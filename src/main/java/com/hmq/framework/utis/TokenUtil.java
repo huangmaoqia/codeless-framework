@@ -2,8 +2,8 @@ package com.hmq.framework.utis;
 
 import java.io.Serializable;
 
-import com.hmq.framework.model.ITokenVO;
-import com.hmq.framework.model.TokenVO;
+import com.hmq.framework.model.token.ITokenVO;
+import com.hmq.framework.model.token.TokenVO;
 
 public class TokenUtil {
 	
