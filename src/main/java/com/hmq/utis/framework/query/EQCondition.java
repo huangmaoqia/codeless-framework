@@ -8,12 +8,15 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.data.jpa.domain.Specification;
+
 import com.hmq.framework.utis.DateUtil;
 
-public class EQCondition<T> implements ICondition<T> {
+public class EQCondition<T> implements Specification<T> {
 	private static final long serialVersionUID = 1L;
 	private String fieldName;
 	private Object value;
+	private ICondition<T> next;
 
 	public EQCondition(String fieldName, Object value) {
 		this.fieldName = fieldName;
@@ -23,14 +26,6 @@ public class EQCondition<T> implements ICondition<T> {
 	public EQCondition(IGetter<T> iGetter, Object value) {
 		this.fieldName = BeanUtils.convertToFieldName(iGetter);
 		this.value = value;
-	}
-	
-	public String getFieldName() {
-		return fieldName;
-	}
-
-	public Object getValue() {
-		return value;
 	}
 
 	@Override
@@ -43,6 +38,14 @@ public class EQCondition<T> implements ICondition<T> {
 			}
 		}
 		return builder.equal(expression, value);
+	}
+
+	public ICondition<T> getNext() {
+		return next;
+	}
+
+	public void setNext(ICondition<T> next) {
+		this.next = next;
 	}
 
 }

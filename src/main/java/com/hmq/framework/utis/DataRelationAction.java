@@ -14,7 +14,7 @@ import com.hmq.framework.model.IPkModel;
 import com.hmq.framework.service.IGenService;
 import com.hmq.utis.framework.query.BeanUtils;
 import com.hmq.utis.framework.query.Condition;
-import com.hmq.utis.framework.query.Expression;
+import com.hmq.utis.framework.query.Conditions;
 import com.hmq.utis.framework.query.IGetter;
 import com.hmq.utis.framework.query.ISetter;
 
@@ -33,7 +33,7 @@ public class DataRelationAction<S, T extends IPkModel<?>> {
 			return;
 		}
 		if (targetList == null) {
-			Expression<T> exp = new Expression<>();
+			Conditions<T> exp = new Conditions<>();
 			for (ForwardRelation<S, T> forwardRelation : dataRelation.forwardRelations) {
 				IGetter<S> sg = forwardRelation.getSGetter();
 				IGetter<T> tg = forwardRelation.getTGetter();
@@ -97,11 +97,11 @@ public class DataRelationAction<S, T extends IPkModel<?>> {
 	}
 
 	public <PO> Specification<PO> rebuildSpec(Specification<S> spec) {
-		if (spec instanceof Expression) {
+		if (spec instanceof Conditions) {
 
-			List<Specification<S>> expressionList = ((Expression<S>) spec).getExpressionList();
+			List<Specification<S>> expressionList = ((Conditions<S>) spec).getExpressionList();
 
-			Expression<T> exp = new Expression<T>();
+			Conditions<T> exp = new Conditions<T>();
 			for (BackwardRelation<S, T> backwardRelation : dataRelation.backwardRelations) {
 				ISetter<S, ?> ss = backwardRelation.getSSetter();
 				IGetter<T> tg = backwardRelation.getTGetter();
@@ -132,7 +132,7 @@ public class DataRelationAction<S, T extends IPkModel<?>> {
 					for (T r : targetList) {
 						valueSet.add(tg.apply(r));
 					}
-					((Expression<S>) spec).addCdIn(sg, valueSet);
+					((Conditions<S>) spec).addCdIn(sg, valueSet);
 				}
 			}
 		}
