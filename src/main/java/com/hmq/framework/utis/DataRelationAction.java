@@ -11,12 +11,10 @@ import java.util.Set;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.hmq.framework.model.IPkModel;
-import com.hmq.framework.service.IGenService;
-import com.hmq.utis.framework.query.BeanUtils;
-import com.hmq.utis.framework.query.Condition;
-import com.hmq.utis.framework.query.Conditions;
-import com.hmq.utis.framework.query.IGetter;
-import com.hmq.utis.framework.query.ISetter;
+import com.hmq.framework.utils.query.Condition;
+import com.hmq.framework.utils.query.Conditions;
+import com.hmq.framework.utils.query.IGetter;
+import com.hmq.framework.utils.query.ISetter;
 
 public class DataRelationAction<S, T extends IPkModel<?>> {
 
@@ -28,6 +26,7 @@ public class DataRelationAction<S, T extends IPkModel<?>> {
 		this.dataRelation = dataRelation;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void relate(List<S> sourceList) {
 		if (sourceList == null || sourceList.size() == 0) {
 			return;
@@ -96,6 +95,7 @@ public class DataRelationAction<S, T extends IPkModel<?>> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public <PO> Specification<PO> rebuildSpec(Specification<S> spec) {
 		if (spec instanceof Conditions) {
 
@@ -112,7 +112,7 @@ public class DataRelationAction<S, T extends IPkModel<?>> {
 						String fieldName = condition.getFieldName();
 						if (columnName.equals(fieldName)) {
 							expressionList.remove(i);
-							exp.addExp(new Condition<T>(BeanUtils.convertToFieldName(tg), condition.getOp(),
+							exp.addCd(new Condition<T>(BeanUtils.convertToFieldName(tg), condition.getOp(),
 									condition.getValue()));
 							break;
 						}

@@ -1,4 +1,4 @@
-package com.hmq.utis.framework.query;
+package com.hmq.framework.utils.query;
 
 import java.io.Serializable;
 

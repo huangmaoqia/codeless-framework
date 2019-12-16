@@ -1,4 +1,4 @@
-package com.hmq.utis.framework.query;
+package com.hmq.framework.utis;
 
 import java.lang.invoke.SerializedLambda;
 import java.lang.ref.WeakReference;
@@ -6,6 +6,9 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.hmq.framework.utils.query.IGetter;
+import com.hmq.framework.utils.query.ISetter;
 
 public class BeanUtils {
 

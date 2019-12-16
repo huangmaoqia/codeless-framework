@@ -1,4 +1,4 @@
-package com.hmq.utis.framework.query;
+package com.hmq.framework.utils.query;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -47,11 +47,11 @@ public class Condition<T> implements Specification<T> {
 		}
 	}
 
-	public Condition(IGetter<T> iGetter, EComparisonOperator op, Object value) {
-		this.fieldName = BeanUtils.convertToFieldName(iGetter);
-		this.op = op;
-		this.value = value;
-	}
+//	public Condition(IGetter<T> iGetter, EComparisonOperator op, Object value) {
+//		this.fieldName = BeanUtils.convertToFieldName(iGetter);
+//		this.op = op;
+//		this.value = value;
+//	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
@@ -101,13 +101,13 @@ public class Condition<T> implements Specification<T> {
 		case IN:
 			In in = builder.in(expression);
 			Collection values = (Collection) value;
-			if (values.size() > 0) {
+			if (values!=null && values.size() > 0) {
 				for (Object obj : values) {
 					in.value(obj);
 				}
 				return in;
 			} else {
-				return builder.notEqual(expression, expression);
+				return builder.disjunction();
 			}
 		default:
 			return null;

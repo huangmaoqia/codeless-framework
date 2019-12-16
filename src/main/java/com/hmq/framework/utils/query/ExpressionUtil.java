@@ -1,4 +1,4 @@
-package com.hmq.utis.framework.query;
+package com.hmq.framework.utils.query;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -12,7 +12,7 @@ public class ExpressionUtil {
 			Entry<String, Object> item = entry.next();
 			String key = (String) item.getKey();
 			Object value = item.getValue();
-			expression.addCd(key, value);
+			expression.addFilter(key, value);
 		}
 		return expression;
 	}

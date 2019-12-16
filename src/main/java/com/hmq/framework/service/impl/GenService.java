@@ -17,10 +17,10 @@ import com.hmq.framework.model.IPkModel;
 import com.hmq.framework.model.page.PageModel;
 import com.hmq.framework.model.token.ITokenVO;
 import com.hmq.framework.service.IGenService;
+import com.hmq.framework.utils.query.ExpressionUtil;
+import com.hmq.framework.utils.query.PageUtil;
 import com.hmq.framework.utis.TokenUtil;
 import com.hmq.framework.utis.UUIDUtil;
-import com.hmq.utis.framework.query.ExpressionUtil;
-import com.hmq.utis.framework.query.JpaUtil;
 
 public class GenService<PO extends IPkModel<ID>, ID extends Serializable, Dao extends IGenDao<PO, ID>>
 		implements IGenService<PO, ID> {
@@ -100,10 +100,10 @@ public class GenService<PO extends IPkModel<ID>, ID extends Serializable, Dao ex
 			String order) {
 		List<PO> modelList = null;
 		if (pageIndex != null) {
-			Pageable pageable = JpaUtil.buildPageable(pageIndex, pageSize, orderBy, order);
+			Pageable pageable = PageUtil.buildPageable(pageIndex, pageSize, orderBy, order);
 			modelList = this.getDao().findAll(spec, pageable).getContent();
 		} else if (orderBy != null) {
-			Sort pageSort = JpaUtil.buildSort(orderBy, order);
+			Sort pageSort = PageUtil.buildSort(orderBy, order);
 			modelList = this.getDao().findAll(spec, pageSort);
 		} else {
 			modelList = this.getDao().findAll(spec);
@@ -114,7 +114,7 @@ public class GenService<PO extends IPkModel<ID>, ID extends Serializable, Dao ex
 	@Override
 	public PageModel<PO> findBySpecWithPage(Specification<PO> spec, Integer pageIndex, Integer pageSize,
 			String orderBy, String order) {
-		Pageable pageable = JpaUtil.buildPageable(pageIndex, pageSize, orderBy, order);
+		Pageable pageable = PageUtil.buildPageable(pageIndex, pageSize, orderBy, order);
 		Page<PO> pageData = this.getDao().findAll(spec, pageable);
 		return new PageModel<PO>(pageData);
 	}

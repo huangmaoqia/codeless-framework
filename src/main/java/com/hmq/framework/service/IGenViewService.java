@@ -30,15 +30,15 @@ public interface IGenViewService<VO, PO extends IPkModel<ID>, ID extends Seriali
 	public PageModel<VO> findVOByFilterWithPage(Map<String, Object> filter, Integer pageIndex, Integer pageSize,
 			String orderBy, String order,List<DataRelation<VO, ?>> relations);
 	
-	public long countVOBySpec(Specification<VO> spec, List<DataRelation<VO, ?>> relations);
+//	public long countVOBySpec(Specification<VO> spec, List<DataRelation<VO, ?>> relations);
 
 	public List<VO> findVOBySpec(Specification<VO> spec,List<DataRelation<VO, ?>> relations);
 	
-	public List<VO> findVOBySpec(Specification<VO> spec, String orderBy, String order,List<DataRelation<VO, ?>> relations);
+//	public List<VO> findVOBySpec(Specification<VO> spec, String orderBy, String order,List<DataRelation<VO, ?>> relations);
 
-	public List<VO> findVOBySpec(Specification<VO> spec, Integer pageIndex, Integer pageSize, String orderBy,
-			String order,List<DataRelation<VO, ?>> relations);
+//	public List<VO> findVOBySpec(Specification<VO> spec, Integer pageIndex, Integer pageSize, String orderBy,
+//			String order,List<DataRelation<VO, ?>> relations);
 
-	public PageModel<VO> findVOBySpecWithPage(Specification<VO> spec, Integer pageIndex, Integer pageSize, String orderBy,
-			String order,List<DataRelation<VO, ?>> relations);
+//	public PageModel<VO> findVOBySpecWithPage(Specification<VO> spec, Integer pageIndex, Integer pageSize, String orderBy,
+//			String order,List<DataRelation<VO, ?>> relations);
 }

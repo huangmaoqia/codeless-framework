@@ -1,7 +1,7 @@
 package com.hmq.framework.utis;
 
-import com.hmq.utis.framework.query.IGetter;
-import com.hmq.utis.framework.query.ISetter;
+import com.hmq.framework.utils.query.IGetter;
+import com.hmq.framework.utils.query.ISetter;
 
 public class BackwardRelation<S, T> {
 	private ISetter<S, ?> sSetter=null;

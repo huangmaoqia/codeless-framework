@@ -1,4 +1,4 @@
-package com.hmq.utis.framework.query;
+package com.hmq.framework.utils.query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
-public final class JpaUtil {
+public final class PageUtil {
 	
 	private static final Integer PAGESIZE=10; 
 	private static final String ORDER="DESC";

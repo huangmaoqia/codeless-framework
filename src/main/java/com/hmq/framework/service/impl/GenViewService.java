@@ -16,10 +16,10 @@ import com.hmq.framework.model.GenVO;
 import com.hmq.framework.model.IPkModel;
 import com.hmq.framework.model.page.PageModel;
 import com.hmq.framework.service.IGenViewService;
+import com.hmq.framework.utils.query.ExpressionUtil;
+import com.hmq.framework.utils.query.PageUtil;
 import com.hmq.framework.utis.DataRelation;
 import com.hmq.framework.utis.DataRelationAction;
-import com.hmq.utis.framework.query.ExpressionUtil;
-import com.hmq.utis.framework.query.JpaUtil;
 
 public class GenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable, Dao extends IGenDao<PO, ID>>
 		extends GenService<PO, ID, Dao> implements IGenViewService<VO, PO, ID> {
@@ -97,6 +97,7 @@ public class GenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable
 		return this.findVOBySpec(spec, pageIndex, pageSize, orderBy, order, null);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void inferType(Object obj) {
 		String clazzName = obj.getClass().getName();
 		if (clazzName.indexOf("$") != -1) {
@@ -156,7 +157,7 @@ public class GenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable
 			relations = columnDataRelations;
 		}
 		for (DataRelation<VO, ?> relation : relations) {
-			relationActionList.add(new DataRelationAction(relation));
+			relationActionList.add(new DataRelationAction<>(relation));
 		}
 		return relationActionList;
 	}
@@ -173,19 +174,16 @@ public class GenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable
 		sonDataRelations.add(r);
 	}
 
-	@Override
 	public List<VO> findVOBySpec(Specification<VO> spec, List<DataRelation<VO, ?>> relations) {
 		return this.findVOBySpec(spec, null, null, null, null, null);
 	}
 
-	@Override
-	public List<VO> findVOBySpec(Specification<VO> spec, String orderBy, String order,
-			List<DataRelation<VO, ?>> relations) {
-		return this.findVOBySpec(spec, null, null, orderBy, order, null);
-	}
+//	private List<VO> findVOBySpec(Specification<VO> spec, String orderBy, String order,
+//			List<DataRelation<VO, ?>> relations) {
+//		return this.findVOBySpec(spec, null, null, orderBy, order, null);
+//	}
 
-	@Override
-	public List<VO> findVOBySpec(Specification<VO> spec, Integer pageIndex, Integer pageSize, String orderBy,
+	private List<VO> findVOBySpec(Specification<VO> spec, Integer pageIndex, Integer pageSize, String orderBy,
 			String order, List<DataRelation<VO, ?>> relations) {
 
 		List<DataRelationAction<VO, ?>> relationActionList = genRelationActionList(relations);
@@ -208,23 +206,21 @@ public class GenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable
 	}
 
 
-	@Override
-	public long countVOBySpec(Specification<VO> spec, List<DataRelation<VO, ?>> relations) {
+	private long countVOBySpec(Specification<VO> spec, List<DataRelation<VO, ?>> relations) {
 		List<DataRelationAction<VO, ?>> relationActionList = genRelationActionList(relations);
 		Specification<PO> poSpec = rebuildSpec(spec, relationActionList);
 		long count = this.getDao().count(poSpec);
 		return count;
 	}
 
-	@Override
-	public PageModel<VO> findVOBySpecWithPage(Specification<VO> spec, Integer pageIndex, Integer pageSize,
+	private PageModel<VO> findVOBySpecWithPage(Specification<VO> spec, Integer pageIndex, Integer pageSize,
 			String orderBy, String order, List<DataRelation<VO, ?>> relations) {
 		
 		List<DataRelationAction<VO, ?>> relationActionList = genRelationActionList(relations);
 
 		Specification<PO> poSpec = rebuildSpec(spec, relationActionList);
 		
-		Pageable pageable = JpaUtil.buildPageable(pageIndex, pageSize, orderBy, order);
+		Pageable pageable = PageUtil.buildPageable(pageIndex, pageSize, orderBy, order);
 		Page<PO> pageData = this.getDao().findAll(poSpec, pageable);
 		List<VO> voList = this.toVO(pageData.getContent());
 		

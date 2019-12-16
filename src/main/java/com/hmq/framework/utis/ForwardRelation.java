@@ -1,6 +1,6 @@
 package com.hmq.framework.utis;
 
-import com.hmq.utis.framework.query.IGetter;
+import com.hmq.framework.utils.query.IGetter;
 
 public class ForwardRelation<S, T> {
 	private IGetter<S> sGetter=null;

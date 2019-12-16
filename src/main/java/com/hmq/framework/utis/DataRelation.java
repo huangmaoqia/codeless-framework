@@ -6,8 +6,8 @@ import java.util.List;
 import com.hmq.framework.model.IPkModel;
 import com.hmq.framework.service.IGenService;
 import com.hmq.framework.service.IGenViewService;
-import com.hmq.utis.framework.query.IGetter;
-import com.hmq.utis.framework.query.ISetter;
+import com.hmq.framework.utils.query.IGetter;
+import com.hmq.framework.utils.query.ISetter;
 
 public class DataRelation<S, T extends IPkModel<?>> {
 
