@@ -41,6 +41,12 @@ public class GenViewController<VO extends IPkModel<ID>, PO extends IPkModel<ID>,
 		List<VO> voList = this.getService().findVOByFilter(filter, pageIndex, pageSize, orderBy, order,null	);
 		return voList;
 	}
+	
+	@GetMapping("/countVO")
+	public long countVO(HttpServletRequest request) {
+		Map<String, Object> filter = getParams(request);
+		return this.getService().countVOByFilter(filter, null);
+	}
 
 	@GetMapping("/serachVOWithPage")
 	public PageModel<VO> serachVOWithPage(HttpServletRequest request, Integer pageIndex, Integer pageSize, String orderBy,

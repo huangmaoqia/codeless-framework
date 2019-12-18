@@ -18,6 +18,7 @@ import com.hmq.framework.model.page.PageModel;
 import com.hmq.framework.service.IGenViewService;
 import com.hmq.framework.utils.query.ExpressionUtil;
 import com.hmq.framework.utils.query.PageUtil;
+import com.hmq.framework.utils.query.ServiceLink;
 import com.hmq.framework.utis.DataRelation;
 import com.hmq.framework.utis.DataRelationAction;
 
@@ -55,10 +56,10 @@ public class GenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable
 
 		List<VO> voList = new ArrayList<>();
 		voList.add(vo);
-		List<DataRelationAction<VO, ?>> relationActionList = genRelationActionList(columnDataRelations);
+		List<DataRelationAction<VO, ?>> relationActionList = genRelationActionList(columnDataRelations,null);
 		this.relate(voList, relationActionList);
 
-		relationActionList = genRelationActionList(sonDataRelations);
+		relationActionList = genRelationActionList(sonDataRelations,null);
 		this.relate(voList, relationActionList);
 
 		return vo;
@@ -94,7 +95,7 @@ public class GenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable
 	public List<VO> findVOByFilter(Map<String, Object> filter, Integer pageIndex, Integer pageSize, String orderBy,
 			String order, List<DataRelation<VO, ?>> relations) {
 		Specification<VO> spec = ExpressionUtil.genExpressionByFilter(filter);
-		return this.findVOBySpec(spec, pageIndex, pageSize, orderBy, order, null);
+		return this.findVOBySpec(spec, pageIndex, pageSize, orderBy, order, null,null);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -151,13 +152,13 @@ public class GenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable
 		return poSpec;
 	}
 
-	private List<DataRelationAction<VO, ?>> genRelationActionList(List<DataRelation<VO, ?>> relations) {
+	private List<DataRelationAction<VO, ?>> genRelationActionList(List<DataRelation<VO, ?>> relations,ServiceLink link) {
 		List<DataRelationAction<VO, ?>> relationActionList = new ArrayList<>();
 		if (relations == null) {
 			relations = columnDataRelations;
 		}
 		for (DataRelation<VO, ?> relation : relations) {
-			relationActionList.add(new DataRelationAction<>(relation));
+			relationActionList.add(new DataRelationAction<>(relation,link));
 		}
 		return relationActionList;
 	}
@@ -174,19 +175,39 @@ public class GenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable
 		sonDataRelations.add(r);
 	}
 
-	public List<VO> findVOBySpec(Specification<VO> spec, List<DataRelation<VO, ?>> relations) {
-		return this.findVOBySpec(spec, null, null, null, null, null);
+	public List<VO> findVOBySpec(Specification<VO> spec, List<DataRelation<VO, ?>> relations,ServiceLink link) {
+		
+		return this.findVOBySpec(spec, null, null, null, null, null,link);
 	}
 
 //	private List<VO> findVOBySpec(Specification<VO> spec, String orderBy, String order,
 //			List<DataRelation<VO, ?>> relations) {
 //		return this.findVOBySpec(spec, null, null, orderBy, order, null);
 //	}
+	
+	private Boolean checkLoop(ServiceLink link){
+		ServiceLink next=link.getNext();
+		while(next!=null && next!=link){
+			if(next.getValue()==link.getValue()){
+				return true;
+			}
+			next=next.getNext();
+		}
+		return false;
+	}
 
 	private List<VO> findVOBySpec(Specification<VO> spec, Integer pageIndex, Integer pageSize, String orderBy,
-			String order, List<DataRelation<VO, ?>> relations) {
-
-		List<DataRelationAction<VO, ?>> relationActionList = genRelationActionList(relations);
+			String order, List<DataRelation<VO, ?>> relations,ServiceLink link) {
+		if(link==null){
+			link=new ServiceLink(this);
+		}else{
+			link.add(this);
+		}
+		if(checkLoop(link)){
+			return null;
+		}
+		
+		List<DataRelationAction<VO, ?>> relationActionList = genRelationActionList(relations,link);
 
 		Specification<PO> poSpec = rebuildSpec(spec, relationActionList);
 
@@ -207,7 +228,7 @@ public class GenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable
 
 
 	private long countVOBySpec(Specification<VO> spec, List<DataRelation<VO, ?>> relations) {
-		List<DataRelationAction<VO, ?>> relationActionList = genRelationActionList(relations);
+		List<DataRelationAction<VO, ?>> relationActionList = genRelationActionList(relations,null);
 		Specification<PO> poSpec = rebuildSpec(spec, relationActionList);
 		long count = this.getDao().count(poSpec);
 		return count;
@@ -216,7 +237,7 @@ public class GenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable
 	private PageModel<VO> findVOBySpecWithPage(Specification<VO> spec, Integer pageIndex, Integer pageSize,
 			String orderBy, String order, List<DataRelation<VO, ?>> relations) {
 		
-		List<DataRelationAction<VO, ?>> relationActionList = genRelationActionList(relations);
+		List<DataRelationAction<VO, ?>> relationActionList = genRelationActionList(relations,null);
 
 		Specification<PO> poSpec = rebuildSpec(spec, relationActionList);
 		

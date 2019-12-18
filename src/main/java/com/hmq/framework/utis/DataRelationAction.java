@@ -15,15 +15,19 @@ import com.hmq.framework.utils.query.Condition;
 import com.hmq.framework.utils.query.Conditions;
 import com.hmq.framework.utils.query.IGetter;
 import com.hmq.framework.utils.query.ISetter;
+import com.hmq.framework.utils.query.ServiceLink;
 
 public class DataRelationAction<S, T extends IPkModel<?>> {
 
 	private List<T> targetList = null;
+	
+	private ServiceLink link=null;
 
 	private DataRelation<S, T> dataRelation = null;
 
-	public DataRelationAction(DataRelation<S, T> dataRelation) {
+	public DataRelationAction(DataRelation<S, T> dataRelation,ServiceLink link) {
 		this.dataRelation = dataRelation;
+		this.link=link;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -47,7 +51,7 @@ public class DataRelationAction<S, T extends IPkModel<?>> {
 			if (dataRelation.genService != null) {
 				targetList = dataRelation.genService.findBySpec(exp);
 			} else if (dataRelation.genViewService != null) {
-				targetList = dataRelation.genViewService.findVOBySpec(exp, null);
+				targetList = dataRelation.genViewService.findVOBySpec(exp, null,link);
 			}
 		}
 		if (targetList != null && targetList.size() > 0) {
@@ -123,7 +127,7 @@ public class DataRelationAction<S, T extends IPkModel<?>> {
 				if (dataRelation.genService != null) {
 					targetList = dataRelation.genService.findBySpec(exp);
 				} else if (dataRelation.genViewService != null) {
-					targetList = dataRelation.genViewService.findVOBySpec(exp, null);
+					targetList = dataRelation.genViewService.findVOBySpec(exp, null,link);
 				}
 				for (ForwardRelation<S, T> forwardRelation : dataRelation.forwardRelations) {
 					IGetter<T> tg = forwardRelation.getTGetter();

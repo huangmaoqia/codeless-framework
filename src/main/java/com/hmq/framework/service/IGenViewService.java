@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.hmq.framework.model.IPkModel;
 import com.hmq.framework.model.page.PageModel;
+import com.hmq.framework.utils.query.ServiceLink;
 import com.hmq.framework.utis.DataRelation;
 
 public interface IGenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable> extends IGenService<PO, ID> {
@@ -32,7 +33,7 @@ public interface IGenViewService<VO, PO extends IPkModel<ID>, ID extends Seriali
 	
 //	public long countVOBySpec(Specification<VO> spec, List<DataRelation<VO, ?>> relations);
 
-	public List<VO> findVOBySpec(Specification<VO> spec,List<DataRelation<VO, ?>> relations);
+	public List<VO> findVOBySpec(Specification<VO> spec,List<DataRelation<VO, ?>> relations,ServiceLink link);
 	
 //	public List<VO> findVOBySpec(Specification<VO> spec, String orderBy, String order,List<DataRelation<VO, ?>> relations);
 
