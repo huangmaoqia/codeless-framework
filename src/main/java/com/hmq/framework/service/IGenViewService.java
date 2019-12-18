@@ -11,7 +11,7 @@ import com.hmq.framework.model.page.PageModel;
 import com.hmq.framework.utils.query.ServiceLink;
 import com.hmq.framework.utis.DataRelation;
 
-public interface IGenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable>{
+public interface IGenViewService<VO, PO extends IPkModel<ID>, ID extends Serializable> extends IGenService<PO, ID> {
 
 	public VO getVOById(ID id);
 

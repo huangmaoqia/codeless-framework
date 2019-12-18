@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.hmq.framework.model.IPkModel;
 import com.hmq.framework.model.page.PageModel;
-import com.hmq.framework.service.ICommonService;
+import com.hmq.framework.service.IGenViewService;
 
-public class GenViewController<VO extends IPkModel<ID>, PO extends IPkModel<ID>, ID extends Serializable, Service extends ICommonService<VO, PO, ID>>
+public class GenViewController<VO extends IPkModel<ID>, PO extends IPkModel<ID>, ID extends Serializable, Service extends IGenViewService<VO, PO, ID>>
 		extends GenController<PO,ID,Service> {
 
 	@GetMapping("/getVO/{id}")
